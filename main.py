@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 99756dc19b0d47b9c8d7cd2e042d8a93e0a3ed4c
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 import socket
