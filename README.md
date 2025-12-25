@@ -20,22 +20,22 @@
 ## 📸 Screenshots
 
 **Screenshot 1**
-![Screenshot 1](./screenshots/desktop1.png)
+![Screenshot 1](https://raw.githubusercontent.com/ayeshamaniyar26/SecureShare-Pro/main/screenshots/desktop1.png)
 
 **Screenshot 2**
-![Screenshot 2](./screenshots/desktop2.png)
+![Screenshot 2](https://raw.githubusercontent.com/ayeshamaniyar26/SecureShare-Pro/main/screenshots/desktop2.png)
 
 **Screenshot 3**
-![Screenshot 3](./screenshots/desktop3.png)
+![Screenshot 3](https://raw.githubusercontent.com/ayeshamaniyar26/SecureShare-Pro/main/screenshots/desktop3.png)
 
 **Screenshot 4**
-![Screenshot 4](./screenshots/desktop4.png)
+![Screenshot 4](https://raw.githubusercontent.com/ayeshamaniyar26/SecureShare-Pro/main/screenshots/desktop4.png)
 
 **Screenshot 5**
-![Screenshot 5](./screenshots/desktop5.png)
+![Screenshot 5](https://raw.githubusercontent.com/ayeshamaniyar26/SecureShare-Pro/main/screenshots/desktop5.png)
 
 **Screenshot 6**
-![Screenshot 6](./screenshots/desktop6.png)
+![Screenshot 6](https://raw.githubusercontent.com/ayeshamaniyar26/SecureShare-Pro/main/screenshots/desktop6.png)
 
 ## 🚀 Quick Start
 
