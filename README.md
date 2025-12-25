@@ -158,7 +158,7 @@ sharefast-pro/
 
 **AYESHA MANIYAR**
 
-- GitHub: [ayeshamaniyar@26](https://github.com/ayeshamaniyar26)
+- GitHub: [ayeshamaniyar26](https://github.com/ayeshamaniyar26)
 - LinkedIn: [Ayesha Maniyar](https://www.linkedin.com/in/ayesha-maniyar-6771692a5)
   -Email: ayeshamaniyar2601@gmail.com
 

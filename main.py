@@ -1,27 +1,3 @@
-"""
-ShareFast Pro v5.1 - FULLY WORKING VERSION
-===========================================
-
-✅ PHONE CONNECTIVITY 100% FIXED
-✅ Analytics working perfectly
-✅ LAN & Public URLs both work on mobile
-✅ Auto firewall configuration
-✅ Dark/Light theme in web interface
-✅ Professional resume project
-
-INSTALLATION:
-pip install flask pillow qrcode werkzeug
-
-RUN (as Admin for auto-firewall):
-python main.py
-
-CRITICAL FIXES:
-- Flask uses host='0.0.0.0' for mobile LAN access
-- Analytics properly saves and displays
-- Download tracking fixed
-- History persistence working
-"""
-
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 import socket
