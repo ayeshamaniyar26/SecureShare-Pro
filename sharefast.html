@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShareFast - Lightning Fast File Sharing</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --bg-light: #f8fafc;
+        --bg-dark: #0f172a;
+        --card-light: #ffffff;
+        --card-dark: #1e293b;
+        --text-light: #1e293b;
+        --text-dark: #f1f5f9;
+        --border-light: #e2e8f0;
+        --border-dark: #334155;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg-light);
+        color: var(--text-light);
+        transition: all 0.3s ease;
+        min-height: 100vh;
+      }
+
+      body.dark {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 30px 0;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--primary-dark) 100%
+        );
+        color: white;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .header p {
+        opacity: 0.9;
+        font-size: 1.1rem;
+      }
+
+      /* Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--card-light);
+        border: 2px solid var(--border-light);
+        padding: 10px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+
+      body.dark .theme-toggle {
+        background: var(--card-dark);
+        border-color: var(--border-dark);
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.05);
+      }
+
+      /* Cards */
+      .card {
+        background: var(--card-light);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 2px solid var(--border-light);
+        transition: all 0.3s ease;
+      }
+
+      body.dark .card {
+        background: var(--card-dark);
+        border-color: var(--border-dark);
+      }
+
+      .card h2 {
+        margin-bottom: 20px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* File Upload */
+      .file-upload-area {
+        border: 3px dashed var(--border-light);
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: var(--bg-light);
+      }
+
+      body.dark .file-upload-area {
+        border-color: var(--border-dark);
+        background: var(--bg-dark);
+      }
+
+      .file-upload-area:hover {
+        border-color: var(--primary);
+        background: rgba(99, 102, 241, 0.05);
+      }
+
+      .file-upload-area.dragover {
+        border-color: var(--success);
+        background: rgba(16, 185, 129, 0.1);
+      }
+
+      .file-info {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(99, 102, 241, 0.1);
+        border-radius: 10px;
+        display: none;
+      }
+
+      .file-info.show {
+        display: block;
+      }
+
+      /* Options */
+      .options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .option-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px;
+        background: var(--bg-light);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      body.dark .option-item {
+        background: var(--bg-dark);
+      }
+
+      .option-item:hover {
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      input[type="password"],
+      input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid var(--border-light);
+        border-radius: 10px;
+        font-size: 1rem;
+        background: var(--card-light);
+        color: var(--text-light);
+        transition: all 0.3s ease;
+      }
+
+      body.dark input[type="password"],
+      body.dark input[type="number"] {
+        background: var(--card-dark);
+        border-color: var(--border-dark);
+        color: var(--text-dark);
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: white;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: white;
+      }
+
+      .btn-danger:hover:not(:disabled) {
+        background: #dc2626;
+        transform: translateY(-2px);
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .btn-group .btn {
+        flex: 1;
+      }
+
+      /* Status */
+      .status {
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        display: none;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .status.show {
+        display: flex;
+      }
+
+      .status.success {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+        border: 2px solid var(--success);
+      }
+
+      .status.error {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+        border: 2px solid var(--danger);
+      }
+
+      .status.warning {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+        border: 2px solid var(--warning);
+      }
+
+      /* Share Links */
+      .share-links {
+        display: none;
+      }
+
+      .share-links.show {
+        display: block;
+      }
+
+      .share-link-item {
+        background: var(--bg-light);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      body.dark .share-link-item {
+        background: var(--bg-dark);
+      }
+
+      .share-link-item code {
+        background: var(--card-light);
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-family: "Courier New", monospace;
+        flex: 1;
+        margin-right: 10px;
+        overflow-x: auto;
+      }
+
+      body.dark .share-link-item code {
+        background: var(--card-dark);
+      }
+
+      .copy-btn {
+        padding: 8px 16px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .copy-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      /* QR Code */
+      .qr-container {
+        text-align: center;
+        padding: 20px;
+        display: none;
+      }
+
+      .qr-container.show {
+        display: block;
+      }
+
+      #qrcode {
+        display: inline-block;
+        padding: 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* History */
+      .history-item {
+        background: var(--bg-light);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        border-left: 4px solid var(--primary);
+      }
+
+      body.dark .history-item {
+        background: var(--bg-dark);
+      }
+
+      .history-item h4 {
+        margin-bottom: 5px;
+      }
+
+      .history-item small {
+        opacity: 0.7;
+      }
+
+      /* Loading Spinner */
+      .spinner {
+        border: 3px solid rgba(99, 102, 241, 0.1);
+        border-top: 3px solid var(--primary);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .options {
+          grid-template-columns: 1fr;
+        }
+
+        .btn-group {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>⚡ ShareFast</h1>
+        <p>Lightning-fast file sharing for students</p>
+      </div>
+
+      <!-- File Selection Card -->
+      <div class="card">
+        <h2>📁 Select Files</h2>
+        <div
+          class="file-upload-area"
+          onclick="document.getElementById('fileInput').click()"
+          ondragover="handleDragOver(event)"
+          ondragleave="handleDragLeave(event)"
+          ondrop="handleDrop(event)"
+        >
+          <div style="font-size: 3rem; margin-bottom: 15px">📤</div>
+          <h3>Click to select files or drag & drop</h3>
+          <p style="opacity: 0.7; margin-top: 10px">
+            Multiple files and folders supported
+          </p>
+        </div>
+        <input
+          type="file"
+          id="fileInput"
+          multiple
+          hidden
+          onchange="handleFileSelect(event)"
+        />
+
+        <div class="file-info" id="fileInfo">
+          <h4>✅ Files Selected:</h4>
+          <div id="fileList"></div>
+        </div>
+      </div>
+
+      <!-- Options Card -->
+      <div class="card">
+        <h2>⚙️ Sharing Options</h2>
+
+        <div class="options">
+          <div class="option-item">
+            <input type="checkbox" id="lanOnly" checked />
+            <label for="lanOnly">🏠 LAN Only (Same WiFi)</label>
+          </div>
+
+          <div class="option-item">
+            <input type="checkbox" id="passwordProtect" />
+            <label for="passwordProtect">🔐 Password Protection</label>
+          </div>
+        </div>
+
+        <div style="margin-top: 15px; display: none" id="passwordField">
+          <label>Password:</label>
+          <input type="password" id="password" placeholder="Enter password" />
+        </div>
+
+        <div style="margin-top: 15px">
+          <label>⏱️ Auto-expire after (minutes):</label>
+          <input type="number" id="expireTime" value="30" min="5" max="120" />
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="btn-group">
+        <button class="btn btn-primary" id="startBtn" onclick="startSharing()">
+          🚀 START SHARING
+        </button>
+        <button
+          class="btn btn-danger"
+          id="stopBtn"
+          onclick="stopSharing()"
+          disabled
+        >
+          ⏹️ STOP SHARING
+        </button>
+      </div>
+
+      <!-- Status -->
+      <div class="status" id="status"></div>
+
+      <!-- Share Links -->
+      <div class="card share-links" id="shareLinks">
+        <h2>🔗 Share Links</h2>
+        <div id="linksContainer"></div>
+
+        <!-- QR Code -->
+        <div class="qr-container" id="qrContainer">
+          <h3>📱 Scan QR Code</h3>
+          <div id="qrcode"></div>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="card">
+        <h2>📜 Transfer History</h2>
+        <div id="history">
+          <p style="opacity: 0.7">No transfers yet</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+      let selectedFiles = [];
+      let isSharing = false;
+      let shareData = null;
+
+      // Theme Toggle
+      function toggleTheme() {
+        document.body.classList.toggle("dark");
+        const btn = document.querySelector(".theme-toggle");
+        btn.textContent = document.body.classList.contains("dark")
+          ? "☀️"
+          : "🌙";
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("dark") ? "dark" : "light"
+        );
+      }
+
+      // Load saved theme
+      if (localStorage.getItem("theme") === "dark") {
+        toggleTheme();
+      }
+
+      // Password field toggle
+      document
+        .getElementById("passwordProtect")
+        .addEventListener("change", function () {
+          document.getElementById("passwordField").style.display = this.checked
+            ? "block"
+            : "none";
+        });
+
+      // File Selection
+      function handleFileSelect(event) {
+        const files = event.target.files;
+        if (files.length > 0) {
+          selectedFiles = Array.from(files);
+          displaySelectedFiles();
+        }
+      }
+
+      function handleDragOver(event) {
+        event.preventDefault();
+        event.currentTarget.classList.add("dragover");
+      }
+
+      function handleDragLeave(event) {
+        event.currentTarget.classList.remove("dragover");
+      }
+
+      function handleDrop(event) {
+        event.preventDefault();
+        event.currentTarget.classList.remove("dragover");
+
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+          selectedFiles = Array.from(files);
+          displaySelectedFiles();
+        }
+      }
+
+      function displaySelectedFiles() {
+        const fileInfo = document.getElementById("fileInfo");
+        const fileList = document.getElementById("fileList");
+
+        let totalSize = 0;
+        let html = '<ul style="list-style: none; padding: 10px 0;">';
+
+        selectedFiles.forEach((file) => {
+          totalSize += file.size;
+          const size = (file.size / (1024 * 1024)).toFixed(2);
+          html += `<li style="padding: 5px 0;">📄 ${file.name} (${size} MB)</li>`;
+        });
+
+        html += "</ul>";
+        html += `<strong>Total: ${selectedFiles.length} file(s), ${(
+          totalSize /
+          (1024 * 1024)
+        ).toFixed(2)} MB</strong>`;
+
+        fileList.innerHTML = html;
+        fileInfo.classList.add("show");
+      }
+
+      // Show Status
+      function showStatus(message, type) {
+        const status = document.getElementById("status");
+        status.className = `status ${type} show`;
+        status.innerHTML = `<span>${message}</span>`;
+      }
+
+      // Start Sharing
+      function startSharing() {
+        if (selectedFiles.length === 0) {
+          showStatus("⚠️ Please select files first!", "error");
+          return;
+        }
+
+        const lanOnly = document.getElementById("lanOnly").checked;
+        const passwordProtect =
+          document.getElementById("passwordProtect").checked;
+        const password = document.getElementById("password").value;
+        const expireTime = document.getElementById("expireTime").value;
+
+        if (passwordProtect && !password) {
+          showStatus("⚠️ Please enter a password!", "error");
+          return;
+        }
+
+        // Simulate server start
+        showStatus("🔄 Starting server...", "warning");
+        document.getElementById("startBtn").disabled = true;
+
+        setTimeout(() => {
+          // Generate mock URLs
+          const localIP = "192.168.1." + Math.floor(Math.random() * 254 + 1);
+          const port = 8000;
+          const localURL = `http://${localIP}:${port}`;
+
+          let urls = [
+            { label: "📱 Local URL (Same WiFi)", url: localURL, type: "local" },
+          ];
+
+          if (!lanOnly) {
+            const ngrokURL = `https://${Math.random()
+              .toString(36)
+              .substring(7)}.ngrok.io`;
+            urls.push({
+              label: "🌍 Public URL (Anyone)",
+              url: ngrokURL,
+              type: "public",
+            });
+          }
+
+          displayShareLinks(urls, passwordProtect ? password : null);
+          generateQRCode(urls[urls.length - 1].url);
+
+          showStatus(
+            "✅ Sharing Active! Send the link to your friends!",
+            "success"
+          );
+          document.getElementById("stopBtn").disabled = false;
+          isSharing = true;
+
+          // Add to history
+          addToHistory(selectedFiles, urls, lanOnly);
+
+          // Auto-expire
+          setTimeout(() => {
+            if (isSharing) {
+              stopSharing();
+              showStatus("⏱️ Session expired automatically", "warning");
+            }
+          }, expireTime * 60 * 1000);
+        }, 1500);
+      }
+
+      // Display Share Links
+      function displayShareLinks(urls, password) {
+        const container = document.getElementById("linksContainer");
+        let html = "";
+
+        urls.forEach((link) => {
+          html += `
+                    <div class="share-link-item">
+                        <div>
+                            <strong>${link.label}</strong><br>
+                            <code>${link.url}</code>
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('${link.url}')">📋 Copy</button>
+                    </div>
+                `;
+        });
+
+        if (password) {
+          html += `
+                    <div class="share-link-item" style="background: rgba(245, 158, 11, 0.1);">
+                        <div>
+                            <strong>🔐 Password Required</strong><br>
+                            <code>${password}</code>
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('${password}')">📋 Copy</button>
+                    </div>
+                `;
+        }
+
+        container.innerHTML = html;
+        document.getElementById("shareLinks").classList.add("show");
+      }
+
+      // Generate QR Code
+      function generateQRCode(url) {
+        const qrContainer = document.getElementById("qrcode");
+        qrContainer.innerHTML = "";
+
+        new QRCode(qrContainer, {
+          text: url,
+          width: 200,
+          height: 200,
+          colorDark: "#6366f1",
+          colorLight: "#ffffff",
+        });
+
+        document.getElementById("qrContainer").classList.add("show");
+      }
+
+      // Copy to Clipboard
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          showStatus("✅ Copied to clipboard!", "success");
+          setTimeout(() => {
+            if (isSharing) {
+              showStatus("✅ Sharing Active!", "success");
+            }
+          }, 2000);
+        });
+      }
+
+      // Stop Sharing
+      function stopSharing() {
+        isSharing = false;
+        document.getElementById("startBtn").disabled = false;
+        document.getElementById("stopBtn").disabled = true;
+        document.getElementById("shareLinks").classList.remove("show");
+        document.getElementById("qrContainer").classList.remove("show");
+        showStatus("⏹️ Sharing stopped", "warning");
+      }
+
+      // Add to History
+      function addToHistory(files, urls, lanOnly) {
+        const history = document.getElementById("history");
+        const now = new Date().toLocaleString();
+
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.innerHTML = `
+                <h4>📤 ${files.length} file(s) shared</h4>
+                <small>🕒 ${now} | ${lanOnly ? "🏠 LAN" : "🌍 Internet"}</small>
+            `;
+
+        if (history.innerHTML.includes("No transfers yet")) {
+          history.innerHTML = "";
+        }
+
+        history.insertBefore(item, history.firstChild);
+      }
+    </script>
+  </body>
+</html>
