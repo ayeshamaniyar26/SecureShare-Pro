@@ -1,6 +1,6 @@
 # ⚡ ShareFast Pro v5.1
 
-**Professional File Sharing Application** - Perfect for Resume & Portfolio
+**Professional File Sharing Application** 
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
@@ -155,9 +155,12 @@ sharefast-pro/
 ├── sharefast_history.json # Analytics data (auto-generated)
 │
 └── screenshots/           # App screenshots
-    ├── desktop.png
-    ├── mobile.png
-    └── analytics.png
+    ├── desktop1.png
+    ├── desktop2.png
+    └── desktop3.png
+    ├── desktop4.png
+    ├── desktop5.png
+    └── desktop6.png
 ```
 
 ## 👨‍💻 Author
