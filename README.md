@@ -1,6 +1,6 @@
 # ⚡ ShareFast Pro v5.1
 
-**Professional File Sharing Application** 
+**Professional File Sharing Application**
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
@@ -151,7 +151,6 @@ sharefast-pro/
 ├── main.py                 # Main application
 ├── requirements.txt        # Dependencies
 ├── README.md              # Documentation
-├── LICENSE                # MIT License
 ├── sharefast_history.json # Analytics data (auto-generated)
 │
 └── screenshots/           # App screenshots
