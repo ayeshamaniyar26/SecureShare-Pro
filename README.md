@@ -19,17 +19,23 @@
 
 ## 📸 Screenshots
 
-### Desktop Application
+**Screenshot 1**
+![Screenshot 1](screenshots/desktop1.png)
 
-![ShareFast Desktop](https://via.placeholder.com/800x600/667eea/ffffff?text=ShareFast+Desktop+App)
+**Screenshot 2**
+![Screenshot 2](screenshots/desktop2.png)
 
-### Mobile Download Page
+**Screenshot 3**
+![Screenshot 3](screenshots/desktop3.png)
 
-![ShareFast Mobile](https://via.placeholder.com/400x800/764ba2/ffffff?text=Mobile+Download+Page)
+**Screenshot 4**
+![Screenshot 4](screenshots/desktop4.png)
 
-### Analytics Dashboard
+**Screenshot 5**
+![Screenshot 5](screenshots/desktop5.png)
 
-![Analytics](https://via.placeholder.com/800x600/10b981/ffffff?text=Analytics+Dashboard)
+**Screenshot 6**
+![Screenshot 6](screenshots/desktop6.png)
 
 ## 🚀 Quick Start
 
